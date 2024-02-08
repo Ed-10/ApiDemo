@@ -28,7 +28,7 @@ public class CategoriaService {
     public CategoriaModel buscarPorId(Integer id){
         Optional<CategoriaModel> optional = repositorio.findById(id);
         if (optional.isPresent()){
-            optional.get();
+            return optional.get();
         }
         return null;
     }

@@ -25,4 +25,5 @@ public class UsuarioService {
     public UsuarioModel buscarCorreo(String correo){
         return this.repositorio.findByCorreo(correo);
     }
+
 }

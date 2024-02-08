@@ -28,11 +28,11 @@ public class ProductosService {
     public ProductosModel buscarPorId(Integer id){
         Optional<ProductosModel> optional = repositorio.findById(id);
         if (optional.isPresent()){
-            optional.get();
+            return optional.get();
         }
         return null;
     }
-    //Metodo para ELIMINAR alguna categoria
+    //Metodo para ELIMINAR algun producto
     public void eliminar (Integer id){
         this.repositorio.deleteById(id);
     }
