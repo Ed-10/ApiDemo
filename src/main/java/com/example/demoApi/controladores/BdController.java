@@ -4,11 +4,13 @@ import com.example.demoApi.modelos.CategoriaModel;
 import com.example.demoApi.modelos.ProductosModel;
 import com.example.demoApi.service.CategoriaService;
 import com.example.demoApi.service.ProductosService;
+import com.example.demoApi.utilidades.Constantes;
 import com.example.demoApi.utilidades.Utilidades;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -65,5 +67,31 @@ public class BdController {
     @GetMapping("/productos/{id}")
     public ProductosModel producto_detalle(@PathVariable("id")Integer id){
         return this.productosService.buscarPorId(id);
+    }
+    @PostMapping("/productos")
+    public ResponseEntity<Object> productos_post(ProductosModel productos,
+                                                 @RequestParam("file")MultipartFile file){
+        HttpStatus status=HttpStatus.OK;
+        String mensaje="";
+        if(!file.isEmpty()){
+            String nombreImagen = Utilidades.guardarArchivo(file, Constantes.RUTA_UPLOAD+"apiDemoUpload/");
+            if (nombreImagen=="no"){
+                status=HttpStatus.BAD_REQUEST;
+                mensaje="La foto enviada no es valida.";
+            }else {
+                if (nombreImagen!=null){
+                    productos.setFoto(nombreImagen);
+                    productos.setSlug(Utilidades.getSlug(productos.getNombre()));
+                    this.productosService.guardar(productos);
+                    status=HttpStatus.CREATED;
+                    mensaje="Se creo el registro de forma exitosa";
+                }
+            }
+        }else {
+            status=HttpStatus.BAD_REQUEST;
+            mensaje="La foto enviada no es valida.";
+        }
+        return Utilidades.generadorResponse(status,mensaje);
+
     }
 }

@@ -5,6 +5,6 @@
  **/
 package com.example.demoApi.utilidades;
 public class Constantes {
-    public static final String RUTA_UPLOAD="/home/edi/proyectosLaboratorio/desarrolloweb/"; //Upload de archivos para imagenes, etc.
+    public static final String RUTA_UPLOAD="/var/www/html/upload/"; //Upload de archivos para imagenes, etc.
     public static final String FIRMA="123456"; //Cuando se contruye un JWT. Estos tiene que ir firmados
 }
